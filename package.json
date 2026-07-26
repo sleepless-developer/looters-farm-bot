@@ -1,0 +1,22 @@
+{
+  "name": "looters-farm-bot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "looters-farm-bot": "src/cli.js"
+  },
+  "scripts": {
+    "check": "node --check src/cli.js && node --test",
+    "test": "node --test",
+    "doctor": "node src/cli.js doctor",
+    "worker:dry": "node src/cli.js worker --dry-run",
+    "worker:once": "node src/cli.js worker --dry-run --once"
+  },
+  "dependencies": {
+    "undici": "^8.9.0"
+  }
+}

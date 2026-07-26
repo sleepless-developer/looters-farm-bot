@@ -1,0 +1,168 @@
+export const API_ORIGIN = "https://lootersnft.xyz";
+export const API_PATH = "/api/game.php";
+
+export const SAFE_GET_ACTIONS = new Set([
+  "me",
+  "contracts",
+  "factories",
+  "gang",
+  "jailhouse",
+  "machine_quests",
+  "top",
+  "feed",
+  "profile",
+  "streak_claim",
+]);
+
+export const SAFE_POST_ACTIONS = new Set([
+  "heist",
+  "upgrade",
+  "contract_claim",
+  "bail",
+  "request_respond",
+]);
+
+export const BASE_COST_BY_NODE = Object.freeze({
+  1: 100,
+  2: 150,
+  3: 150,
+  4: 250,
+  5: 250,
+  6: 250,
+  7: 400,
+  8: 400,
+  9: 400,
+  10: 650,
+  11: 650,
+  12: 1200,
+});
+
+export const NODE_DEPENDENCIES = Object.freeze({
+  1: [],
+  2: [1],
+  3: [1],
+  4: [2],
+  5: [1],
+  6: [3],
+  7: [4],
+  8: [5],
+  9: [6],
+  10: [7],
+  11: [9],
+  12: [10, 11],
+});
+
+export const MAX_RANK = 10;
+export const COST_GROWTH = 1.3;
+
+export const AUTO_UPGRADE_EFFECT_TYPES = Object.freeze([
+  "suc",
+  "heat",
+  "pay",
+  "regen",
+]);
+
+export const TRACK_NODES = Object.freeze({
+  drill: {
+    1: ["suc", 1],
+    2: ["suc", 1],
+    3: ["suc", 1],
+    4: ["suc", 2],
+    5: ["suc", 2],
+    6: ["heat", 0.2],
+    7: ["suc", 2],
+    8: ["suc", 2],
+    9: ["heat", 0.3],
+    10: ["suc", 3],
+    11: ["suc", 3],
+    12: ["suc", 4],
+  },
+  hack: {
+    1: ["suc", 1],
+    2: ["suc", 1],
+    3: ["suc", 1],
+    4: ["heat", 0.2],
+    5: ["suc", 2],
+    6: ["suc", 2],
+    7: ["heat", 0.3],
+    8: ["suc", 2],
+    9: ["suc", 2],
+    10: ["suc", 3],
+    11: ["suc", 3],
+    12: ["suc", 4],
+  },
+  wheels: {
+    1: ["suc", 1],
+    2: ["suc", 1],
+    3: ["suc", 1],
+    4: ["suc", 2],
+    5: ["regen", 2],
+    6: ["suc", 2],
+    7: ["suc", 2],
+    8: ["regen", 3],
+    9: ["suc", 2],
+    10: ["suc", 3],
+    11: ["suc", 3],
+    12: ["suc", 4],
+  },
+  inside: {
+    1: ["suc", 1],
+    2: ["suc", 1],
+    3: ["suc", 1],
+    4: ["suc", 2],
+    5: ["suc", 2],
+    6: ["suc", 2],
+    7: ["jail", 1],
+    8: ["jail", 2],
+    9: ["suc", 2],
+    10: ["suc", 3],
+    11: ["bail", 2],
+    12: ["suc", 4],
+  },
+  mask: {
+    1: ["pay", 0.3],
+    2: ["pay", 0.3],
+    3: ["heat", 0.2],
+    4: ["pay", 0.4],
+    5: ["pay", 0.4],
+    6: ["heat", 0.3],
+    7: ["pay", 0.5],
+    8: ["crit", 0.2],
+    9: ["pay", 0.5],
+    10: ["crit", 0.3],
+    11: ["pay", 0.6],
+    12: ["pay", 0.8],
+  },
+  bags: {
+    1: ["pay", 0.3],
+    2: ["pay", 0.3],
+    3: ["pay", 0.4],
+    4: ["pay", 0.4],
+    5: ["regen", 2],
+    6: ["pay", 0.4],
+    7: ["pay", 0.5],
+    8: ["pay", 0.5],
+    9: ["crit", 0.2],
+    10: ["pay", 0.6],
+    11: ["pay", 0.6],
+    12: ["pay", 0.8],
+  },
+});
+
+export const PRIORITY_UPGRADES = Object.freeze([
+  { track: "hack", node: 3, desiredRank: 1, tier: "A" },
+  { track: "hack", node: 5, desiredRank: 1, tier: "A" },
+  { track: "wheels", node: 4, desiredRank: 1, tier: "A" },
+  { track: "wheels", node: 6, desiredRank: 1, tier: "A" },
+  { track: "inside", node: 4, desiredRank: 1, tier: "A" },
+  { track: "inside", node: 5, desiredRank: 1, tier: "A" },
+  { track: "inside", node: 6, desiredRank: 1, tier: "A" },
+  { track: "mask", node: 3, desiredRank: 2, tier: "B" },
+  { track: "hack", node: 4, desiredRank: 1, tier: "B" },
+  { track: "mask", node: 6, desiredRank: 1, tier: "B" },
+  { track: "bags", node: 5, desiredRank: 1, tier: "B" },
+  { track: "wheels", node: 8, desiredRank: 1, tier: "B" },
+  { track: "drill", node: 10, desiredRank: 1, tier: "C" },
+  { track: "drill", node: 11, desiredRank: 1, tier: "C" },
+  { track: "drill", node: 12, desiredRank: 1, tier: "C" },
+]);
