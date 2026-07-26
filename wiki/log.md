@@ -593,3 +593,25 @@
   dependencies, Git metadata, and prior archives; forbidden entries: zero;
   SHA-256
   `92DDB105BCAAA4EC189ED7602746752FBAABBE71F3005E4745C21C4A269F1DBD`.
+
+## 2026-07-26 — private GitHub publication and CI
+
+- Initialized `main`, committed only the 36 reviewed project files, created
+  private repository `https://github.com/sleepless-developer/looters-farm-bot`,
+  and pushed via HTTPS without force-push.
+- The first isolated GitHub Actions run exposed outdated test expectations
+  after the cheapest-price upgrade change and proxy-fixture sanitization, plus
+  a Linux test dependency on Windows `APPDATA`. Production logic was unchanged:
+  proxy expectations now use explicit placeholders, cheapest `+SUC` tests
+  match the current absolute-price planner, and Web UI tests use a temporary
+  isolated settings directory.
+- The follow-up CI run passed. Updated workflow dependencies to the current
+  Node 24-based `actions/checkout@v5` and `actions/setup-node@v6` while the
+  project test matrix remains Node 22.
+- Re-ran intended-file and staged-content scans: no blocking private key,
+  live session, bearer/JWT/API/GitHub/cloud token, or real proxy credential
+  patterns.
+- Built final 32-entry allowlist archive
+  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r11.zip`;
+  forbidden entries: zero; SHA-256
+  `E97D28092766D6C35033C940B20FB842E810D6FB08E3E4F674149D1D6CFB0A8F`.

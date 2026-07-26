@@ -68,16 +68,18 @@ Current live watchers as of 2026-07-26 latest safe UI check:
 
 Current safe distribution:
 
-- `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r10.zip`
+- `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r11.zip`
 - Contents are allowlisted to README/package manifests, `src`, and `test`.
 - Content and archive-entry scans found no blocking credentials/sensitive data;
   node_modules, wiki/operational history, runtime data, logs, HAR, DPAPI, `.env`,
   `.git`, and prior archives are excluded.
 - SHA-256:
-  `92DDB105BCAAA4EC189ED7602746752FBAABBE71F3005E4745C21C4A269F1DBD`.
-- GitHub publication is configured for a private HTTPS repository with a
-  least-privilege Node 22 CI workflow. Repository secrets are not required by
-  the workflow.
+  `E97D28092766D6C35033C940B20FB842E810D6FB08E3E4F674149D1D6CFB0A8F`.
+- Private GitHub repository:
+  `https://github.com/sleepless-developer/looters-farm-bot`.
+- Git push uses HTTPS. GitHub Actions runs least-privilege Node 22 checks with
+  current Node 24-based checkout/setup actions; repository secrets are not
+  required by the workflow.
 - Root cause of prior proxy `fetch failed`: npm `undici` `ProxyAgent` was used
   with Node's global `fetch`, causing `UND_ERR_INVALID_ARG`. The API client now
   uses `fetch` from the same `undici` package as `ProxyAgent`.
