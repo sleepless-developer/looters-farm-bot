@@ -1,7 +1,20 @@
-import test from "node:test";
+import test, { after } from "node:test";
 import assert from "node:assert/strict";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { parseSafeActivityLine, startWebUiServer } from "../src/webUi.js";
 import { loadSettings, saveSettings } from "../src/settings.js";
+
+const originalAppData = process.env.APPDATA;
+const testAppData = await mkdtemp(join(tmpdir(), "looters-web-ui-test-"));
+process.env.APPDATA = testAppData;
+
+after(async () => {
+  if (originalAppData === undefined) delete process.env.APPDATA;
+  else process.env.APPDATA = originalAppData;
+  await rm(testAppData, { recursive: true, force: true });
+});
 
 test("local web UI serves dashboard shell and blocks POST without CSRF", async () => {
   const originalSettings = await loadSettings();

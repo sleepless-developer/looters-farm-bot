@@ -99,8 +99,8 @@ test("auto success upgrade planner chooses cheapest +SUC upgrade when enabled", 
   const plan = planAutoSuccessUpgrade(upgradePlayer, { autoUpgradeSuccess: true });
   assert.equal(plan.type, "upgrade");
   assert.equal(plan.upgrade.track, "drill");
-  assert.equal(plan.upgrade.node, 4);
-  assert.equal(plan.upgrade.cost, 250);
+  assert.equal(plan.upgrade.node, 1);
+  assert.equal(plan.upgrade.cost, 130);
 });
 
 test("auto upgrade planner picks the cheapest available node across all selected effects", () => {
@@ -153,7 +153,7 @@ test("jewelry live tick can auto-upgrade cheapest success before heists", async 
     loot: 50,
     perks: {
       ...upgradePlayer.perks,
-      drill: { ...upgradePlayer.perks.drill, 4: 1 },
+      drill: { ...upgradePlayer.perks.drill, 1: 2 },
     },
   };
   let upgraded = false;
@@ -178,7 +178,7 @@ test("jewelry live tick can auto-upgrade cheapest success before heists", async 
     autoUpgradeSuccess: true,
   });
 
-  assert.deepEqual(posts[0], { action: "upgrade", body: { track: "drill", node: 4 } });
+  assert.deepEqual(posts[0], { action: "upgrade", body: { track: "drill", node: 1 } });
   assert.equal(posts.filter((post) => post.action === "heist").length, 5);
 });
 

@@ -53,9 +53,9 @@ test("cookie helper accepts request Cookie header forms", () => {
 
 test("proxy helper accepts only host-only http/https proxy urls and masks auth", () => {
   assert.equal(normalizeProxyUrl("http://user:pass@proxy.example"), "http://user:pass@proxy.example/");
-  assert.equal(normalizeProxyUrl("http://192.0.2.10:6271:name:pass:"), "http://user:pass@proxy.example/");
-  assert.equal(normalizeProxyUrl("192.0.2.10:6271:name:pass"), "http://user:pass@proxy.example/");
-  assert.equal(maskProxyUrl("http://user:pass@proxy.example"), "http://user:pass@proxy.example");
+  assert.equal(normalizeProxyUrl("http://192.0.2.10:6271:user:pass:"), "http://user:pass@192.0.2.10:6271/");
+  assert.equal(normalizeProxyUrl("192.0.2.10:6271:user:pass"), "http://user:pass@192.0.2.10:6271/");
+  assert.equal(maskProxyUrl("http://user:pass@proxy.example"), "http://user:***@proxy.example");
   assert.equal(maskProxyUrl("https://proxy.example:8443"), "https://proxy.example:8443");
   assert.equal(looksLikeProxyUrl("socks5://user:pass@127.0.0.1:1080"), false);
   assert.equal(looksLikeProxyUrl("http://127.0.0.1:8080/path"), false);
