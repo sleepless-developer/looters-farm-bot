@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { Script, runInNewContext } from "node:vm";
 import { parseSafeActivityLine, startWebUiServer } from "../src/webUi.js";
 import { loadSettings, saveSettings } from "../src/settings.js";
 
@@ -31,8 +32,9 @@ test("local web UI serves dashboard shell and blocks POST without CSRF", async (
     assert.match(html, /Autopilot scheduler/);
     assert.match(html, /class="scheduler-actions"/);
     assert.doesNotMatch(html, /<h2 data-i18n="profiles_title">/);
-    assert.match(html, /data-lang="ru"/);
-    assert.match(html, /data-lang="en"/);
+    assert.match(html, /<html lang="en">/);
+    assert.doesNotMatch(html, /data-lang=/);
+    assert.doesNotMatch(html, /\p{Script=Cyrillic}/u);
     assert.match(html, /data-i18n="hero_subtitle"/);
     assert.match(html, /data-i18n="chip_daily"/);
     assert.match(html, /id="gang-watch-toggle"/);
@@ -52,12 +54,30 @@ test("local web UI serves dashboard shell and blocks POST without CSRF", async (
     assert.doesNotMatch(html, /data-action="restart"/);
     assert.doesNotMatch(html, /Fixed target/);
     const js = await fetch(`${url}/app.js`).then((response) => response.text());
+    assert.doesNotThrow(() => new Script(js));
+    const englishMessages = js.slice(js.indexOf("const I18N ="), js.indexOf("function updateStatusPanelToggle()"));
+    const languageContext = {
+      document: { documentElement: { lang: "ru" }, querySelectorAll: () => [] },
+      localStorage: { getItem: () => { throw new Error("Language preferences must not be read"); } },
+      updateStatusPanelToggle: () => {},
+    };
+    runInNewContext(`${englishMessages}\napplyLanguage();`, languageContext);
+    assert.equal(languageContext.document.documentElement.lang, "en");
+    for (const [, key] of html.matchAll(/data-i18n(?:-placeholder)?="([^"]+)"/g)) {
+      const message = runInNewContext(`${englishMessages}\nt(${JSON.stringify(key)});`);
+      assert.notEqual(message, key, `Missing English message: ${key}`);
+    }
+    assert.equal(
+      runInNewContext(`${englishMessages}\nt('selected_profiles', {selected: 2, total: 3});`),
+      "2/3 SELECTED",
+    );
     assert.match(js, /Auto-upgrade by lowest price/);
     assert.match(js, /data-account-upgrade-effect/);
     assert.match(js, /UPGRADE_EFFECT_TYPES = \['suc', 'heat', 'pay', 'regen'\]/);
     assert.match(js, /setLocalUpgradeEffectState/);
     assert.match(js, /ALL PROFILES/);
-    assert.match(js, /looters-ui-language/);
+    assert.doesNotMatch(js, /looters-ui-language|normalizeLang|currentLang/);
+    assert.doesNotMatch(js, /\p{Script=Cyrillic}/u);
     assert.match(js, /function applyLanguage/);
     assert.match(js, /let statusPanelExpanded = false/);
     assert.match(js, /function setStatusPanelExpanded/);
@@ -94,7 +114,7 @@ test("local web UI serves dashboard shell and blocks POST without CSRF", async (
     assert.match(css, /minmax\(min\(100%, 420px\), 1fr\)/);
     assert.match(css, /overflow-wrap: anywhere/);
     assert.match(css, /\.profile-item \.row/);
-    assert.match(css, /\.lang-switch/);
+    assert.doesNotMatch(css, /\.lang-switch|\.lang-option/);
     assert.match(css, /\.account-run-select:has\(input:checked\)/);
     assert.match(css, /\.run-toggle/);
     assert.match(css, /\.account-run-select/);

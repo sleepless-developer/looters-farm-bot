@@ -1,188 +1,171 @@
 # Looters Farm Bot
 
-Локальный Windows-бот для одновременной работы с несколькими профилями
-Looters. Управление выполняется через чёрно-белый localhost UI. Бот работает
-только со структурированным backend API игры и не читает HTML, DOM или
-`.antibot`.
+A local Windows bot for running multiple Looters profiles together through a
+black-and-white localhost dashboard. The bot uses only the game's structured
+backend API. It does not read HTML, the DOM, or `.antibot`.
 
-## Возможности
+## Features
 
-- Main-профиль без proxy и дополнительные профили с отдельными HTTP/HTTPS
-  proxy.
-- Независимые галочки `Запускать вместе` для выбора профилей, которые должен
-  обрабатывать multi-profile worker.
-- Кнопка `Выбрать все профили`.
-- Фоновый multi-profile worker с опросом каждые 3 секунды.
-- Ожидание полного бюджета 10 энергии отдельно на каждом выбранном профиле.
-- Пауза 3 секунды между live-heist запросами внутри одного batch.
-- Автоматический выбор рана с минимальным доступным шансом, но не ниже
-  заданного порога — по умолчанию 24%.
-- Защита по heat — по умолчанию новые раны блокируются при `heat >= 45`.
-- Gang auto-accept работает одновременно с multi-profile autopilot внутри того
-  же worker. Галочка в UI включает или выключает gang-модуль, не останавливая
-  heist-автопилот.
-- Индивидуальная автопрокачка по минимальной цене для каждого профиля:
-  независимые галочки `+SUC`, `+HEAT`, `+PAY`, `+REGEN`.
-  Выбор сохраняется последовательными backend-операциями и остаётся
-  оптимистически отмеченным до подтверждения свежим dashboard-снимком, поэтому
-  старый ответ автообновления не сбрасывает галочку.
-- Автоклейм daily reward и завершённых daily contracts только при 0 энергии.
-- RU/ENG интерфейс.
-- Перемещаемое курсором окно `BOT ACTIVITY`: перетаскивается за верхнюю строку,
-  остаётся в видимой области при прокрутке и изменении размера окна, запоминает
-  позицию локально. Показывает heist, upgrade, gang, daily, worker tick и
-  безопасные категории ошибок.
-- Glow-индикаторы работающих watchers и включённых функций.
-- Компактная шапка: пять квадратных статусных карточек по умолчанию скрыты и
-  раскрываются кнопкой `Показать статус`. Карточки Gang и планировщика ниже не
-  растягивают друг друга по высоте.
+- A direct Main account and additional profiles with individual HTTP/HTTPS proxies.
+- Independent `Run together` checkboxes and a `Select all profiles` action.
+- A background multi-profile worker that checks accounts every 3 seconds.
+- A separate full 10-energy budget check for each selected profile.
+- A 3-second pause between live heist requests within each batch.
+- Automatic selection of the lowest available success chance at or above the
+  configured threshold (24% by default).
+- Heat protection: new heists are blocked at `heat >= 45` by default.
+- Gang auto-accept inside the same multi-profile worker. Its checkbox enables
+  or disables the gang module without stopping heist automation.
+- Per-profile upgrades with independent `+SUC`, `+HEAT`, `+PAY`, and `+REGEN`
+  checkboxes. The planner buys the cheapest eligible upgrade among the selected
+  effects. Writes are serialized, and checkbox selections remain visible until
+  a fresh dashboard response confirms them, preventing stale refreshes from
+  undoing a recent selection.
+- Automatic daily reward and completed daily contract claims only at 0 energy.
+- An English-only interface, including controls, status messages, and prompts.
+- A draggable `BOT ACTIVITY` panel that stays within the viewport and remembers
+  its position locally. It displays heists, upgrades, gang requests, daily claims,
+  worker ticks, and safe error categories.
+- Glow indicators for running watchers and enabled features.
+- A compact header with five square status cards, initially hidden behind
+  `Show status`. Settings cards keep their natural height.
 
-## Требования
+## Requirements
 
 - Windows 10/11.
-- Node.js 22 или новее.
+- Node.js 22 or later.
 - npm.
-- Авторизованная Looters cookie-сессия для каждого профиля.
+- An authenticated Looters cookie session for each profile.
 
-Twitter/X используется только для ручного входа на сайт игры. Бот не хранит
-пароль Twitter и не выполняет OAuth самостоятельно.
+Twitter/X is used only for manual sign-in on the game website. The bot does not
+store Twitter passwords or perform OAuth on its own.
 
-## Установка из ZIP
+## Installation
 
-1. Распакуйте архив в отдельную папку.
-2. Откройте PowerShell или CMD в распакованной папке.
-3. Установите зависимости:
+1. Clone the repository or extract a source ZIP into a separate folder.
+2. Open PowerShell or CMD in that folder.
+3. Install dependencies from the lockfile:
 
-```powershell
-npm.cmd install
-```
+   ```powershell
+   npm.cmd ci
+   ```
 
-4. При необходимости выполните локальную проверку:
+4. Optionally run the local checks:
 
-```powershell
-npm.cmd run check
-```
+   ```powershell
+   npm.cmd run check
+   ```
 
-## Запуск localhost UI
+## Start the localhost UI
 
-В папке проекта выполните:
+Run this command from the project folder:
 
 ```powershell
 node src/cli.js ui
 ```
 
-Откройте в браузере:
+Open [http://127.0.0.1:8787](http://127.0.0.1:8787) in your browser.
 
-```text
-http://127.0.0.1:8787
-```
-
-Другой порт:
+To use a different port:
 
 ```powershell
 node src/cli.js ui --port 8790
 ```
 
-UI слушает только localhost. Окно терминала с UI должно оставаться запущенным.
-Сам multi-profile worker создаётся как отдельный фоновый процесс и продолжает
-работать после закрытия вкладки браузера.
+The UI listens on localhost only. Keep its terminal window open. The
+multi-profile worker runs as a separate background process and continues after
+you close the browser tab.
 
-## Первичная настройка
+## Initial setup
 
-### Main-профиль
+### Main account
 
-1. Войдите в игру через Twitter/X в обычном браузере.
-2. Откройте DevTools → Network.
-3. Выберите авторизованный запрос к `/api/game.php`.
-4. Скопируйте полный Request Header `Cookie`.
-5. Вставьте его в поле Main Cookie в localhost UI и сохраните.
+1. Sign in to the game through Twitter/X in your regular browser.
+2. Open DevTools > Network.
+3. Select an authenticated request to `/api/game.php`.
+4. Copy the complete `Cookie` request header.
+5. Paste it into the Main Cookie field in the localhost UI and save it.
 
-### Дополнительные профили
+### Additional profiles
 
-В секции добавления профиля укажите:
+In the add-profile section, enter:
 
-- понятное локальное имя;
-- полный Cookie header;
-- proxy — необязательно.
+- A recognizable local name.
+- The complete Cookie header.
+- An optional proxy URL.
 
-Поддерживаемый стандартный формат proxy:
+Supported standard proxy formats:
 
 ```text
 http://user:pass@host:port
 https://user:pass@host:port
 ```
 
-После добавления отметьте галочками `Запускать вместе` нужные профили либо
-нажмите `Выбрать все профили`.
+After adding profiles, check `Run together` for the accounts you want to run,
+or click `Select all profiles`.
 
-## Запуск автопилота
+## Start autopilot
 
-1. Проверьте, что у выбранных профилей сохранена cookie-сессия.
-2. Отметьте профили галочками `Запускать вместе`.
-3. Настройте:
-   - Energy budget: `10`;
-   - Wait for full energy budget: включено;
-   - Seconds between runs: `3`;
-   - Heat cap: `45`;
+1. Confirm that the selected profiles have saved cookie sessions.
+2. Select the profiles using their `Run together` checkboxes.
+3. Configure:
+   - Energy budget: `10`.
+   - Wait for full energy budget: enabled.
+   - Seconds between runs: `3`.
+   - Heat cap: `45`.
    - Min success chance: `24`.
-4. Для каждого профиля выберите нужные категории автопрокачки:
-   `+SUC`, `+HEAT`, `+PAY`, `+REGEN`.
-5. В блоке `Планировщик автопилота` нажмите:
-   - `Запустить выбранные` — worker обработает только отмеченные аккаунты;
-   - `Запустить все` — UI сначала отметит все аккаунты, затем запустит тот же
-     общий worker.
+4. Select upgrade categories for each profile: `+SUC`, `+HEAT`, `+PAY`, `+REGEN`.
+5. In `Autopilot scheduler`, click:
+   - `Start selected` to process only checked accounts.
+   - `Start all` to select every account and start the same worker.
 
-В UI нет отдельной карточки Multi-profile autopilot: параметры и кнопки
-запуска объединены в `Планировщике автопилота`. Gang auto-accept, daily claim
-и auto-upgrade работают как внутренние модули того же worker. Кнопок запуска
-legacy single-active watchers в UI нет.
+Scheduler settings and launch controls share one `Autopilot scheduler` section.
+Gang auto-accept, daily claims, and upgrades run as internal modules of the
+same worker. The UI does not expose legacy single-active watcher controls.
 
-Перед фактическим запуском worker сохраняет нормализованный снимок всех
-несекретных параметров в `last-launch-settings.json`. При следующем запуске
-обычно используется актуальный `settings.json`; если он отсутствует или
-повреждён, бот восстанавливает конфиг последнего запуска из резервного снимка.
+Before starting, the worker saves a normalized snapshot of all non-secret
+settings to `last-launch-settings.json`. Subsequent launches normally use
+`settings.json`. If that file is missing or malformed, the bot restores the
+last launch configuration from the snapshot.
 
-Worker независимо проверяет каждый выбранный профиль. Если энергии меньше 10,
-профиль остаётся в ожидании. При достижении 10 энергии бот строит безопасный
-batch, выполняет раны с паузой 3 секунды и повторно проверяет состояние между
-запросами. Batch может завершиться раньше при heat cap, jail, недостатке
-энергии или backend-ошибке.
+The worker checks each selected profile independently. Profiles with less than
+10 energy wait. At 10 energy, it plans a guarded batch, pauses 3 seconds between
+heists, and rechecks state between requests. A batch can end early due to the
+heat cap, jail, insufficient energy, or a backend error.
 
-Автопрокачка рассматривает только доступные узлы выбранных категорий и покупает
-узел с минимальной абсолютной ценой. Если отмечены все четыре галочки, бот
-выбирает самый дешёвый доступный апгрейд любого из этих четырёх типов.
-Сохранённая настройка старого формата `Auto-upgrade cheapest +SUC` автоматически
-мигрирует в `+SUC = включено`, а `+HEAT/+PAY/+REGEN = выключено`.
+The upgrade planner considers only available nodes in selected categories and
+buys the node with the lowest absolute price. Selecting all four categories
+allows the cheapest eligible upgrade across all four effects. Legacy
+`Auto-upgrade cheapest +SUC` settings migrate to `+SUC` enabled and
+`+HEAT/+PAY/+REGEN` disabled.
 
-При работающем общем worker отдельные карточки `GANG ENGINE` и
-`HEIST ENGINE` показывают `VIA AUTOPILOT`, поскольку отдельные legacy
-процессы в этом режиме намеренно остановлены для защиты от двойных запросов.
-Галочка `Gang auto-accept running` управляет модулем внутри autopilot; её
-переключение не перезапускает и не останавливает общий worker.
+While the shared worker is running, `GANG ENGINE` and `HEIST ENGINE` status
+cards show `VIA AUTOPILOT`. Separate legacy processes are intentionally stopped
+to prevent duplicate requests. The gang auto-accept checkbox controls the
+module without restarting or stopping the shared worker.
 
-Чтобы остановить фоновые действия, нажмите `Остановить автопилот`.
+Click `Stop autopilot` to stop background actions.
 
-## Безопасность credentials
+## Credential safety
 
-В архиве нет cookies, proxy credentials, токенов, HAR, runtime-логов или
-локальных настроек.
+Source distributions do not include cookies, proxy credentials, tokens, HAR
+files, runtime logs, or local settings.
 
-После запуска credentials сохраняются только вне папки проекта:
+At runtime, credentials are stored outside the project folder:
 
 ```text
 %APPDATA%\looters-farm-bot\
 ```
 
-- Cookie и proxy шифруются Windows CurrentUser DPAPI.
-- `settings.json` и `last-launch-settings.json` содержат только несекретные
-  параметры автоматики; последний файл является резервным снимком конфига
-  последнего запуска.
-- Расшифровать их может только тот же Windows-пользователь.
-- Значения credentials не возвращаются в UI и не печатаются в safe-логах.
-- Не переносите файлы `%APPDATA%\looters-farm-bot` между компьютерами.
-- Не добавляйте cookies, `.env`, HAR или DPAPI-файлы в папку проекта.
+- Cookies and proxy credentials are encrypted with Windows CurrentUser DPAPI.
+- `settings.json` and `last-launch-settings.json` contain only non-secret
+  automation settings. The latter is a backup of the last launch configuration.
+- Encrypted credentials can be decrypted only by the same Windows user.
+- Credential values are never returned to the UI or printed in safe logs.
+- Do not transfer `%APPDATA%\looters-farm-bot` files between computers.
+- Do not add cookies, `.env`, HAR, or DPAPI files to the project folder.
 
-## Основные CLI-команды
+## Common CLI commands
 
 ```text
 node src/cli.js ui
@@ -195,16 +178,23 @@ node src/cli.js gang auto-accept --dry-run
 node src/cli.js heist jewelry-plan
 ```
 
-Live-команды выполняют реальные backend-действия. Для предварительной проверки
-используйте `--dry-run`, где он поддерживается.
+Live commands perform real backend actions. Use `--dry-run` for a preview
+where supported.
 
-## Что не входит в архив
+## Excluded from source distributions
 
-- `node_modules`;
-- `.git`;
-- `.env` и локальные конфиги с секретами;
-- cookies, proxy credentials и DPAPI storage;
-- HAR и raw request dumps;
-- runtime-логи;
-- предыдущие ZIP-архивы;
-- данные браузера и Twitter/X.
+- `node_modules`.
+- `.git` in packaged release archives.
+- `.env` and secret-bearing local configuration.
+- Cookies, proxy credentials, and DPAPI storage.
+- HAR files and raw request dumps.
+- Runtime logs.
+- Previous ZIP archives.
+- Browser and Twitter/X data.
+
+## Repository language
+
+Maintain all GitHub-facing content in English: documentation, code comments,
+UI and CLI messages, commit messages, issue and pull request text, and release
+notes. Preserve API identifiers, commands, proper names, and user-supplied data.
+See [AGENTS.md](AGENTS.md) for contributor guidance.

@@ -2,6 +2,21 @@
 
 Status: v0.1 local dry-run/live worker scaffold implemented.
 
+## 2026-10-24 repository language update
+
+- All maintained repository text and GitHub-facing content must be in English.
+- README and wiki navigation are translated; the localhost UI is English-only,
+  with no language selector or dependency on an old saved language preference.
+- Terminal confirmations use `y/yes` and `n/no`. API identifiers and settings
+  schemas are unchanged.
+- Translation work is isolated from uncommitted feature work in the original
+  local checkout. No live workers or account credentials are accessed.
+- The GitHub repository is currently public, as verified from repository
+  metadata. This change does not alter its visibility or rewrite Git history.
+- Historical runtime entries below are dated records, not a current health check.
+- Private absolute Windows paths have been removed from maintained documents.
+- See `AGENTS.md` for language rules and `test/language.test.js` for text guards.
+
 Safety defaults:
 
 - Main account plus named local profiles are supported.
@@ -68,14 +83,14 @@ Current live watchers as of 2026-07-26 latest safe UI check:
 
 Current safe distribution:
 
-- `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r11.zip`
+- `looters-farm-bot-safe-2026-07-26-r11.zip`
 - Contents are allowlisted to README/package manifests, `src`, and `test`.
 - Content and archive-entry scans found no blocking credentials/sensitive data;
   node_modules, wiki/operational history, runtime data, logs, HAR, DPAPI, `.env`,
   `.git`, and prior archives are excluded.
 - SHA-256:
   `E97D28092766D6C35033C940B20FB842E810D6FB08E3E4F674149D1D6CFB0A8F`.
-- Private GitHub repository:
+- GitHub repository (currently public):
   `https://github.com/sleepless-developer/looters-farm-bot`.
 - Git push uses HTTPS. GitHub Actions runs least-privilege Node 22 checks with
   current Node 24-based checkout/setup actions; repository secrets are not
@@ -86,8 +101,8 @@ Current safe distribution:
 - Interactive console is available with `node src/cli.js console`.
 - Local website UI is available with `node src/cli.js ui` at
   `http://127.0.0.1:8787`.
-- Local website UI has a RU/ENG selector in the top-right header. The language
-  preference is stored only in browser `localStorage`.
+- The published localhost UI is English-only. Stored language preferences from
+  older releases are ignored; non-secret activity-panel positioning is unchanged.
 - The header now summarizes the current feature set: multi-profile autopilot,
   gang auto-accept, energy/chance heists, per-account lowest-price selected
   upgrades (`SUC/HEAT/PAY/REGEN`), and daily reward/contracts claim only at

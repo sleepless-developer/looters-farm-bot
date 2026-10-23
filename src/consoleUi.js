@@ -235,8 +235,8 @@ async function askOptionalNumber(label, current, { min = Number.NEGATIVE_INFINIT
 async function askBoolean(label, current) {
   const answer = (await ask(`${label} [${current ? "Y/n" : "y/N"}]: `)).toLowerCase();
   if (!answer) return current;
-  if (["y", "yes", "да", "д"].includes(answer)) return true;
-  if (["n", "no", "нет", "н"].includes(answer)) return false;
+  if (["y", "yes"].includes(answer)) return true;
+  if (["n", "no"].includes(answer)) return false;
   console.log(`Invalid answer, keeping ${current}.`);
   return current;
 }

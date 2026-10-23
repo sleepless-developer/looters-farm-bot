@@ -2,7 +2,7 @@
 
 ## 2026-07-22
 
-- Created standalone `looters-farm-bot` project under `C:\Users\izxnxmi\Documents\CODEX PROJ`.
+- Created the standalone `looters-farm-bot` project in the local project workspace.
 - Implemented API-only stable farm worker using backend-derived game fields from the provided HAR.
 - Added CurrentUser DPAPI session-cookie vault outside the repo.
 - Added tests for redaction, `.antibot` independence, stable target selection, upgrade dependency checks, heat guard, and bail guard.
@@ -356,7 +356,7 @@
 - Scanned the 30 allowlisted distribution files without printing candidate
   values; blocking credential/sensitive findings: zero.
 - Created
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26.zip`
+  `looters-farm-bot-safe-2026-07-26.zip`
   with one root folder, README/package manifests, 18 source files, and 9 test
   files. Forbidden archive entries: zero. SHA-256:
   `FD18822AA54537BF19FEFA962BDD3054C3F0A7F29AF4DC5D1E20A0B49B6965ED`.
@@ -384,7 +384,7 @@
   explicit approval before running project code.
 - Scanned 30 allowlisted distribution files: zero private-key, live
   `PHPSESSID`, or secret-assignment findings. Created
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r1.zip`
+  `looters-farm-bot-safe-2026-07-26-r1.zip`
   with 30 entries and zero forbidden paths. SHA-256:
   `7AA049F56F6D2D05EEA9C579F2983BA50E9F06AEE78E9DD7E443CB143B92EB03`.
 
@@ -414,12 +414,12 @@
   executed without fresh explicit approval.
 - Scanned 30 allowlisted distribution files with zero sensitive findings and
   created
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r2.zip`
+  `looters-farm-bot-safe-2026-07-26-r2.zip`
   with 30 entries and zero forbidden paths. SHA-256:
   `F717956704724D1EB7A6825175BC46E01BE1FCAFA63D15BC8F7D1EDA4F19FAB4`.
 
 - Final wording/layout refresh was repackaged as
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r3.zip`;
+  `looters-farm-bot-safe-2026-07-26-r3.zip`;
   30 entries, zero sensitive findings, zero forbidden paths, SHA-256
   `DEAE4A2C37044B4DC16CA095CEE0DE71D0F72C66051D4E7EA515C17926DA962B`.
 
@@ -445,7 +445,7 @@
   fresh explicit approval; pid `32744` therefore still serves the prior bundle.
 - Scanned all 30 allowlisted distribution files without printing candidate
   values: zero blocking secret findings. Created the 30-entry archive
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r4.zip`
+  `looters-farm-bot-safe-2026-07-26-r4.zip`
   with zero forbidden entries; SHA-256
   `FFEFBE08FF2603BD48D1F3D338660FC481CBB097BB1115BA290CD7A626B9DACC`.
 
@@ -465,7 +465,7 @@
   continues to serve the preceding bundle.
 - Scanned 30 allowlisted files without printing candidate values: zero blocking
   secret findings. Created the 30-entry safe archive
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r5.zip`
+  `looters-farm-bot-safe-2026-07-26-r5.zip`
   with zero forbidden entries; SHA-256
   `4B52ECF3C5B142D35DB01489119C7D83D17DFC2DEDF55488BF15301B9FB90BD9`.
 
@@ -485,7 +485,7 @@
   fresh explicit approval; running pid `32744` still serves the older bundle.
 - Scanned 30 allowlisted files without printing candidate values: zero blocking
   secret findings. Created the 30-entry safe archive
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r6.zip`
+  `looters-farm-bot-safe-2026-07-26-r6.zip`
   with zero forbidden entries; SHA-256
   `34FF2511401DF431672CC2A2959DC7176F1F9A47875820131080C63B5A143CBF`.
 
@@ -519,7 +519,7 @@
   preceding bundle.
 - Scanned 30 allowlisted distribution files without printing candidate values:
   zero blocking secret findings. Created the 30-entry safe archive
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r7.zip`
+  `looters-farm-bot-safe-2026-07-26-r7.zip`
   with zero forbidden entries; SHA-256
   `19259D9FEE269D7C1E7545E351B2B20D643519E8D8960FE99F66D7A15BFAB1B5`.
 
@@ -541,7 +541,7 @@
   preceding bundle.
 - Scanned the 30 allowlisted distribution files without printing candidate
   values: zero blocking secret findings. Created the 30-entry safe archive
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r8.zip`
+  `looters-farm-bot-safe-2026-07-26-r8.zip`
   with zero forbidden entries; SHA-256
   `FCA4E3518DF715A762F52307F8131167FEAD2284B734CFBE5F3ED6FA286BD188`.
 
@@ -572,7 +572,7 @@
   pid `21916` still serves the preceding bundle.
 - Scanned 30 allowlisted distribution files without printing candidate values:
   zero blocking secret findings. Created the 30-entry safe archive
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r9.zip`
+  `looters-farm-bot-safe-2026-07-26-r9.zip`
   with zero forbidden entries; SHA-256
   `02B5F276E0ED10E523118F0B1D9E404A3CE96FBD4E56EB49D49323C1FA099FF6`.
 
@@ -588,7 +588,7 @@
   tests and replaced mechanically with explicit non-production placeholders;
   the blocking rescan is clean.
 - Built the 32-entry allowlist archive
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r10.zip`.
+  `looters-farm-bot-safe-2026-07-26-r10.zip`.
   It excludes wiki/operational history, credentials, runtime data,
   dependencies, Git metadata, and prior archives; forbidden entries: zero;
   SHA-256
@@ -612,6 +612,25 @@
   live session, bearer/JWT/API/GitHub/cloud token, or real proxy credential
   patterns.
 - Built final 32-entry allowlist archive
-  `C:\Users\izxnxmi\Documents\CODEX PROJ\looters-farm-bot-safe-2026-07-26-r11.zip`;
+  `looters-farm-bot-safe-2026-07-26-r11.zip`;
   forbidden entries: zero; SHA-256
   `E97D28092766D6C35033C940B20FB842E810D6FB08E3E4F674149D1D6CFB0A8F`.
+
+## 2026-10-24 — English-only repository
+
+- Translated the README and wiki navigation to English. Removed the Russian UI
+  dictionary, language controls, and saved-language dependency; all maintained
+  interface text now uses English. Terminal confirmations use English answers.
+- Added contributor language rules and a check-suite guard against Cyrillic text
+  and private Windows user paths. UI regression tests cover English message
+  keys, interpolation, generated JavaScript syntax, and old language preferences.
+- Redacted private absolute machine paths from earlier documentation entries;
+  historical events and archive filenames remain intact. This is a safety
+  redaction, not a rewrite of Git commit history.
+- Worked from the published baseline in an isolated checkout, preserving all
+  unrelated uncommitted feature work in the original checkout. No game actions,
+  account-credential reads, dependency installs, or worker restarts occurred.
+- With explicit permission, ran `npm run check` using existing dependencies and
+  isolated temporary settings: all 56 tests passed. Existing CI automatically
+  includes the new tests. The repository description is already English, and
+  there are no releases, open issues, open PRs, or hosted wiki pages to translate.

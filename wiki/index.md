@@ -1,5 +1,7 @@
 # Looters farm bot wiki
 
-- [[project-status]] — текущее состояние и безопасные defaults.
-- [[codebase-map]] — карта модулей и поток данных.
-- [[log]] — append-only история изменений.
+- [[project-status]] — current state and safe defaults.
+- [[codebase-map]] — module map and data flow.
+- [[log]] — append-only change history.
+
+All repository documentation and GitHub-facing content must be maintained in English.

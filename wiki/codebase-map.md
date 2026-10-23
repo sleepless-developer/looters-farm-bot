@@ -1,5 +1,14 @@
 # Codebase map
 
+## 2026-10-24 English-only repository
+
+- `AGENTS.md` defines English-only GitHub content and safe translation checks.
+- `test/language.test.js` guards maintained text against Cyrillic content and
+  private Windows user paths; it is included in the existing check suite.
+- `test/webUi.test.js` checks English HTML and client messages, message-key
+  coverage, variable interpolation, generated JavaScript syntax, and independence
+  from stored language preferences.
+
 ## 2026-07-26 additions
 
 - `.github/workflows/ci.yml` — least-privilege Node 22 CI for push and pull
@@ -29,7 +38,7 @@
   stop controls are consolidated into the `Autopilot scheduler` settings card;
   there is no separate `Multi-profile autopilot` card. Legacy single-account
   process controls and HTTP watcher routes are not exposed. Header status cards
-  live in a default-collapsed RU/ENG drawer, use a five-column square desktop
+  live in a default-collapsed English status drawer, use a five-column square desktop
   grid with responsive fallbacks, and the Gang/scheduler settings grid aligns
   cards to their natural heights instead of stretching the shorter card.
 

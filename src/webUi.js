@@ -475,7 +475,7 @@ function sendJson(res, status, value) {
 
 function renderIndexHtml(csrfToken) {
   return `<!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -489,7 +489,7 @@ function renderIndexHtml(csrfToken) {
       <div class="hero-copy">
         <p class="eyebrow" data-i18n="hero_eyebrow">LOCALHOST / DPAPI / SAFE BOT</p>
         <h1 data-i18n="hero_title">Looters Control Deck</h1>
-        <p class="subtitle" data-i18n="hero_subtitle">Мультипрофильный автопилот: gang auto-accept, heist по энергии/шансу, автопрокачка +SUC/+HEAT/+PAY/+REGEN и daily claim только при 0 энергии. Cookie/proxy остаются запечатаны локально.</p>
+        <p class="subtitle" data-i18n="hero_subtitle">Multi-profile autopilot: gang auto-accept, energy/chance heists, lowest-price +SUC / +HEAT / +PAY / +REGEN upgrades and daily claim only at 0 energy. Cookies and proxies stay sealed locally.</p>
         <div class="hero-chips">
           <span id="feature-profiles" class="feature-chip"><i></i><b data-i18n="chip_profiles">Profiles</b></span>
           <span id="feature-heists" class="feature-chip"><i></i><b data-i18n="chip_heists">Safe heists</b></span>
@@ -498,10 +498,6 @@ function renderIndexHtml(csrfToken) {
         </div>
       </div>
       <div class="hero-actions">
-        <div class="lang-switch" aria-label="Language">
-          <button class="lang-option" type="button" data-lang="ru">RU</button>
-          <button class="lang-option" type="button" data-lang="en">ENG</button>
-        </div>
         <div class="hero-control-row">
           <button id="status-toggle" class="button ghost status-toggle" type="button" aria-expanded="false" aria-controls="status-panel">
             <span id="status-toggle-label">Show status</span>
@@ -672,31 +668,6 @@ body::before {
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-}
-.lang-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px;
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 999px;
-  background: rgba(0,0,0,.28);
-  box-shadow: 0 12px 30px rgba(0,0,0,.24);
-}
-.lang-option {
-  border: 0;
-  border-radius: 999px;
-  padding: 8px 11px;
-  color: var(--muted);
-  background: transparent;
-  font: inherit;
-  font-size: 12px;
-  letter-spacing: .08em;
-  cursor: pointer;
-}
-.lang-option.active {
-  color: #050505;
-  background: #fff;
 }
 .status-toggle {
   display: inline-flex;
@@ -1211,12 +1182,10 @@ const pendingAutomationByAccount = new Map();
 const pendingUpgradeByAccount = new Map();
 const UPGRADE_EFFECT_TYPES = ['suc', 'heat', 'pay', 'regen'];
 let selectAllAccountsSaving = false;
-const LANG_STORAGE_KEY = 'looters-ui-language';
 const BOT_ACTIVITY_POSITION_KEY = 'looters-bot-activity-position';
 const BOT_ACTIVITY_EDGE = 8;
 let botActivityDragState = null;
 let statusPanelExpanded = false;
-let currentLang = normalizeLang(localStorage.getItem(LANG_STORAGE_KEY) || 'ru');
 
 const I18N = {
   en: {
@@ -1347,161 +1316,22 @@ const I18N = {
     paste_profile_cookie: 'Paste the new Cookie header into the profile cookie input first.',
     paste_profile_proxy: 'Paste proxy URL into the profile proxy input first.',
     delete_profile_confirm: 'Delete this encrypted profile cookie?'
-  },
-  ru: {
-    hero_eyebrow: 'LOCALHOST / DPAPI / SAFE BOT',
-    hero_title: 'Looters Control Deck',
-    hero_subtitle: 'Мультипрофильный автопилот: заявки в gang, heist по энергии и шансу, автопрокачка +SUC / +HEAT / +PAY / +REGEN по минимальной цене и daily claim только при 0 энергии. Cookie и proxy остаются запечатаны локально.',
-    chip_profiles: 'Профили',
-    chip_heists: 'Безопасные раны',
-    chip_daily: 'Дейлики при 0 энергии',
-    chip_suc: 'Автопрокачка',
-    show_status: 'Показать статус',
-    hide_status: 'Скрыть статус',
-    status_overview: 'Сводка статуса',
-    bot_activity: 'ДЕЙСТВИЯ БОТА',
-    background_online: 'ФОНОВЫЙ РЕЖИМ АКТИВЕН',
-    background_legacy: 'LEGACY WATCHER АКТИВЕН',
-    background_off: 'ФОНОВЫЙ РЕЖИМ ВЫКЛЮЧЕН',
-    activity_waiting: 'Ожидаю действия worker…',
-    activity_heist: '{account}: ран {target} · {progress}',
-    activity_upgrade: '{account}: +{effect} апгрейд {track}:{node} · цена {cost}',
-    activity_daily_contract: '{account}: daily контракт заклеймлен',
-    activity_daily_streak: '{account}: daily streak, день {day}',
-    activity_gang: '{account}: принято gang-заявок: {count}',
-    activity_tick: 'Все профили проверены · включено {enabled}/{accounts} · ошибок {failed}',
-    activity_started: 'Фоновый worker запущен · опрос {interval} сек',
-    activity_error: '{account}: ошибка worker · {category}',
-    refresh: 'Обновить',
-    gang_title: 'Автопринятие в gang',
-    gang_interval: 'Интервал gang-проверки, сек',
-    gang_min_earned: 'Мин. earned',
-    gang_max: 'Макс. за тик',
-    blank_all: 'пусто = все',
-    desktop_notify: 'Уведомления',
-    gang_live_toggle: 'Включить Gang auto-accept в автопилоте',
-    gang_toggle_hint: 'Галочка включает gang auto-accept внутри общего мультипрофильного worker и никогда не запускает отдельный single-account процесс.',
-    heist_title: 'Планировщик автопилота',
-    energy_budget: 'Бюджет энергии',
-    check_interval: 'Интервал проверки, сек',
-    run_interval: 'Интервал между ранами, сек',
-    heat_cap: 'Лимит heat',
-    target_mode: 'Режим цели',
-    lowest_safe_chance: 'Минимальный безопасный шанс',
-    stable_ev: 'Лучший EV / энергия',
-    min_success: 'Мин. шанс успеха %',
-    wait_full_energy: 'Ждать полный бюджет энергии',
-    daily_auto_claim: 'Автоклейм daily reward/contracts при 0 энергии',
-    heist_hint: 'Общий worker ждёт бюджет энергии, запускает раны с минимальным шансом не ниже 24% и применяет включённые модули gang, daily и upgrade.',
-    autopilot_launch_hint: 'Запускает отмеченные либо все аккаунты в одном фоновом worker. Выбор и настройки перечитываются автоматически.',
-    accounts_eyebrow: 'ПРОФИЛИ',
-    accounts_title: 'Main аккаунт + proxy профили',
-    accounts_hint: 'Отметь галочками профили для одновременного запуска в мультипрофильном автопилоте. Main работает напрямую, остальные профили могут использовать свой HTTP/HTTPS proxy.',
-    select_all_profiles: 'Выбрать все профили',
-    all_profiles_selected: 'Все профили выбраны',
-    refresh_stats: 'Обновить статистику',
-    add_profile_title: 'Добавить proxy профиль',
-    profile_name: 'Имя профиля',
-    profile_name_placeholder: 'alt-1 / mobile / raid',
-    profile_cookie_placeholder: 'Cookie: PHPSESSID=...',
-    profile_proxy_placeholder: 'Proxy: http://user:pass@host:port',
-    add_profile_button: 'Добавить профиль + сделать активным',
-    profile_update_hint: 'Чтобы обновить существующий профиль, вставь cookie/proxy сюда и нажми действие на карточке профиля.',
-    start_profiles: 'Запустить выбранные',
-    start_all_profiles: 'Запустить все',
-    stop_profiles: 'Остановить автопилот',
-    safe_log: 'Safe event log',
-    clear_panel: 'Очистить панель',
-    active_session: 'АКТИВЕН: {name}',
-    session: 'СЕССИЯ',
-    signed_in: 'ВХОД ОК',
-    check_cookie: 'ПРОВЕРЬ COOKIE',
-    not_signed_in: 'нет входа',
-    gang_watcher: 'GANG ENGINE',
-    jewelry_watcher: 'HEIST ENGINE',
-    all_profiles: 'ВСЕ ПРОФИЛИ',
-    live: 'LIVE #{pid}',
-    via_autopilot: 'ЧЕРЕЗ AUTOPILOT',
-    disabled_in_autopilot: 'ВЫКЛЮЧЕН В AUTOPILOT',
-    armed_for_autopilot: 'ГОТОВ К AUTOPILOT',
-    stopped: 'STOPPED',
-    started: 'старт',
-    farm_group: 'ГРУППА ФАРМА',
-    selected_profiles: 'ВЫБРАНО {selected}/{total}',
-    backend_profiles_ok: 'backend доступен у {ready}/{selected} профилей',
-    per_profile_runtime: 'состояние каждого профиля показано в карточках ниже',
-    auto_upgrade: 'AUTO UPGRADE',
-    off: 'OFF',
-    armed: 'ARMED',
-    checkbox_disabled: 'галочка выключена',
-    next: 'следующий',
-    no_known_suc: 'нет известных нод выбранных типов',
-    waiting_for_loot: 'ждёт loot',
-    no_eligible_suc: 'нет доступной прокачки выбранных типов',
-    main_account: 'Main account',
-    no_profiles: 'Proxy профилей пока нет. Добавь профиль справа; main остаётся direct/no proxy.',
-    direct_no_proxy: 'DIRECT / NO PROXY',
-    no_proxy_set: 'NO PROXY SET',
-    cookie: 'cookie',
-    saved: 'saved',
-    missing: 'missing',
-    proxy: 'proxy',
-    main: 'main',
-    profile: 'profile',
-    active: 'АКТИВЕН',
-    standby: 'STANDBY',
-    activating: 'СОХРАНЯЮ',
-    active_account_toggle: 'Добавить профиль в одновременный запуск',
-    run_together: 'Запускать вместе',
-    loot: 'Loot',
-    energy: 'Energy',
-    heat: 'Heat',
-    next_stat: 'Next',
-    not_checked: 'не проверено',
-    plan_unknown: 'plan=unknown',
-    next_suc_none: 'нет доступной прокачки выбранных типов',
-    auto_upgrade_account: 'Автопрокачка по минимальной цене',
-    selected_upgrade_types: 'Выбрано: {types}',
-    use_main: 'Выбрать main',
-    update_main_cookie: 'Обновить main cookie',
-    clear_main_cookie: 'Очистить main cookie',
-    use: 'Выбрать',
-    update_cookie: 'Обновить cookie',
-    update_proxy: 'Обновить proxy',
-    clear_proxy: 'Очистить proxy',
-    delete: 'Удалить',
-    main_cookie_placeholder: 'Main Cookie: PHPSESSID=...',
-    paste_main_cookie: 'Сначала вставь Main Cookie header в поле Main Cookie.',
-    clear_main_confirm: 'Очистить зашифрованный Cookie для Main account?',
-    paste_profile_cookie: 'Сначала вставь новый Cookie header в поле profile cookie.',
-    paste_profile_proxy: 'Сначала вставь proxy URL в поле profile proxy.',
-    delete_profile_confirm: 'Удалить этот зашифрованный профиль?'
   }
 };
 
-function normalizeLang(value) {
-  return value === 'en' ? 'en' : 'ru';
-}
-
 function t(key, vars = {}) {
-  const text = I18N[currentLang]?.[key] ?? I18N.en[key] ?? key;
+  const text = I18N.en[key] ?? key;
   return String(text).replace(/\\{([a-zA-Z0-9_]+)\\}/g, (_, name) => vars[name] ?? '');
 }
 
-function applyLanguage(lang) {
-  currentLang = normalizeLang(lang);
-  localStorage.setItem(LANG_STORAGE_KEY, currentLang);
-  document.documentElement.lang = currentLang;
+function applyLanguage() {
+  // English is fixed; previously saved language preferences are ignored.
+  document.documentElement.lang = 'en';
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     node.textContent = t(node.dataset.i18n);
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach((node) => {
     node.setAttribute('placeholder', t(node.dataset.i18nPlaceholder));
-  });
-  document.querySelectorAll('[data-lang]').forEach((button) => {
-    const active = button.dataset.lang === currentLang;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', active ? 'true' : 'false');
   });
   updateStatusPanelToggle();
 }
@@ -2126,13 +1956,6 @@ $('gang-watch-toggle').addEventListener('change', () => {
   });
 });
 
-document.querySelectorAll('[data-lang]').forEach((button) => {
-  button.addEventListener('click', () => {
-    applyLanguage(button.dataset.lang);
-    if (lastDashboard && !isEditingForm()) renderDashboard(lastDashboard, { force: true });
-  });
-});
-
 [
   'gang-interval',
   'gang-min-earned',
@@ -2364,7 +2187,7 @@ function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
 }
 
-applyLanguage(currentLang);
+applyLanguage();
 initBotActivityDrag();
 restoreBotActivityPosition();
 forceRefresh().catch((error) => log({ error: error.message }));
